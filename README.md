@@ -1,36 +1,264 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍽️ CodeMenu - Cielo Rooftop Bar
 
-## Getting Started
+Digital menu PWA (Progressive Web App) for Cielo Rooftop Bar restaurant with public menu viewing and admin panel for content management.
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-16.0-black?logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
+![Supabase](https://img.shields.io/badge/Supabase-Ready-green?logo=supabase)
+![License](https://img.shields.io/badge/license-MIT-blue)
+
+---
+
+## ✨ Features
+
+### 🌐 Public Menu
+- **Landing page** with all menu categories
+- **Category pages** displaying products with images and prices
+- **Bilingual support** (Spanish/English) with next-intl
+- **PWA capabilities** - Install as app, offline support
+- **Mobile-first design** - Optimized for smartphones and tablets
+- **Responsive images** with automatic fallback for broken URLs
+
+### 🔐 Admin Panel
+- **Authentication** with Supabase Auth (email/password)
+- **Categories CRUD** - Create, edit, delete, restore
+- **Products CRUD** - Full product management
+- **Image upload** to Supabase Storage
+- **Search & Filters** - Find products/categories quickly
+- **Soft delete** - Items can be restored after deletion
+- **Dual pricing** - Support for glass/bottle pricing
+- **Sort order** - Custom ordering of items
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technologies |
+|----------|-------------|
+| **Framework** | Next.js 15 (App Router, React Server Components) |
+| **Language** | TypeScript (strict mode) |
+| **Backend** | Supabase (PostgreSQL + Auth + Storage) |
+| **Styling** | Tailwind CSS v4 + shadcn/ui components |
+| **i18n** | next-intl (Spanish/English) |
+| **PWA** | next-pwa with offline caching |
+| **Deployment** | Vercel-ready |
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- Node.js 18+
+- npm/pnpm/yarn
+- Supabase account (free tier works)
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/swlarot/codemenu.git
+cd codemenu
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env.local` file (see `.env.example`):
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+```
+
+### 3. Set Up Supabase
+
+#### Database Schema
+
+Run the SQL from `supabase/schema.sql` in your Supabase SQL Editor to create:
+- `categories` table
+- `products` table
+- Row Level Security (RLS) policies
+
+See `SUPABASE_SETUP.md` for detailed instructions.
+
+#### Storage Bucket
+
+Create a public bucket named `product-images` for product photos.
+
+See `SUPABASE_STORAGE_SETUP.md` for setup guide.
+
+#### Create Admin User
+
+In Supabase Dashboard → Authentication → Users → Add user:
+```
+Email: admin@cielo.com
+Password: [your-secure-password]
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the public menu.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Admin panel: [http://localhost:3000/login](http://localhost:3000/login)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+codemenu/
+├── src/
+│   ├── app/
+│   │   ├── [locale]/           # Internationalized routes
+│   │   │   ├── (public)/       # Public menu pages
+│   │   │   │   ├── page.tsx           # Landing/categories
+│   │   │   │   └── menu/[category]/   # Products by category
+│   │   │   └── (admin)/        # Protected admin routes
+│   │   │       ├── login/             # Admin authentication
+│   │   │       └── dashboard/         # Admin CRUD pages
+│   │   └── globals.css
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── menu/               # Public menu components
+│   │   └── admin/              # Admin panel components
+│   ├── lib/
+│   │   ├── supabase/           # Supabase clients & utilities
+│   │   ├── i18n/               # Internationalization config
+│   │   └── utils.ts
+│   ├── types/
+│   │   └── database.ts         # TypeScript types from Supabase
+│   └── proxy.ts                # Next.js 16 middleware
+├── messages/                   # i18n translations (es.json, en.json)
+├── supabase/                   # Database schema & seed data
+├── public/                     # Static assets
+└── [config files]
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🎨 Design System
 
-## Deploy on Vercel
+### Brand Colors (Cielo Rooftop)
+- **Primary**: Navy blue `#1a1a2e`
+- **Accent**: Gold `#c9a227`
+- **Background**: Light variations
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Typography
+- **Headings**: Playfair Display (serif)
+- **Body**: Inter (sans-serif)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Components
+All UI components from shadcn/ui, customized with Cielo branding.
+
+---
+
+## 📱 PWA Features
+
+- ✅ **Installable** - Add to home screen on mobile
+- ✅ **Offline support** - Service worker caching
+- ✅ **Fast loading** - Next.js + Turbopack
+- ✅ **Responsive** - Works on all screen sizes
+
+---
+
+## 🔒 Security
+
+- **Row Level Security (RLS)** - Public users can only read active items
+- **Authenticated admin** - Full CRUD access requires login
+- **Environment variables** - Secrets not committed to Git
+- **Soft deletes** - Data never permanently removed from DB
+
+---
+
+## 🌍 Internationalization
+
+Supports Spanish (default) and English:
+
+- Routes: `/es/...` or `/en/...`
+- Dynamic locale switching with next-intl
+- All content (categories, products) has `_es` and `_en` fields
+
+---
+
+## 📝 Available Scripts
+
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm run start        # Start production server
+npm run lint         # ESLint check
+```
+
+---
+
+## 🚢 Deployment
+
+### Vercel (Recommended)
+
+1. Push code to GitHub ✅ (already done)
+2. Import project in [Vercel](https://vercel.com/new)
+3. Add environment variables from `.env.local`
+4. Deploy!
+
+Vercel automatically detects Next.js and configures everything.
+
+### Other Platforms
+
+Works on any platform supporting Next.js:
+- Netlify
+- Cloudflare Pages
+- Railway
+- Render
+
+---
+
+## 📚 Documentation
+
+- `CLAUDE.md` - Project overview and code conventions
+- `PROJECT_STRUCTURE.md` - Detailed file structure
+- `SUPABASE_SETUP.md` - Database setup guide
+- `SUPABASE_STORAGE_SETUP.md` - Image storage configuration
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Next.js** - React framework
+- **Supabase** - Backend as a service
+- **shadcn/ui** - Beautiful UI components
+- **Tailwind CSS** - Utility-first CSS
+- **Vercel** - Hosting platform
+
+---
+
+## 📧 Contact
+
+**Cielo Rooftop Bar**
+For questions or support, please open an issue on GitHub.
+
+---
+
+<p align="center">
+  🤖 Built with <a href="https://claude.com/claude-code">Claude Code</a>
+</p>
